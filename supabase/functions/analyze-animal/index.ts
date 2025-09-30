@@ -118,10 +118,19 @@ Coordinates should be in pixels relative to the image dimensions. Confidence sho
 
     try {
       // Extract and parse the JSON response
-      const content = aiResult.choices?.[0]?.message?.content;
+      let content = aiResult.choices?.[0]?.message?.content;
+      
+      if (!content) {
+        throw new Error("No content in AI response");
+      }
+      
+      // Remove markdown code blocks if present
+      content = content.replace(/```json\s*/, '').replace(/```\s*$/, '').trim();
+      
       analysisData = JSON.parse(content);
     } catch (parseError) {
       console.error("Failed to parse AI response:", parseError);
+      console.error("Raw AI response:", aiResult.choices?.[0]?.message?.content);
       throw new Error("Invalid AI response format");
     }
 

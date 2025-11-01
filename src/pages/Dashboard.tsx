@@ -13,6 +13,7 @@ import { SellCattle } from "@/components/SellCattle";
 import { MedicineStore } from "@/components/MedicineStore";
 import { Veterinarians } from "@/components/Veterinarians";
 import { MyOrders } from "@/components/MyOrders";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 
 interface AnalysisResult {
   keypoints: Record<string, any>;
@@ -155,9 +156,20 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Header */}
-      <header className="bg-card/50 backdrop-blur-sm shadow-soft border-b border-primary/10">
+    <BackgroundGradientAnimation
+      gradientBackgroundStart="rgb(108, 0, 162)"
+      gradientBackgroundEnd="rgb(0, 17, 82)"
+      firstColor="138, 43, 226"
+      secondColor="255, 20, 147"
+      thirdColor="0, 191, 255"
+      fourthColor="50, 205, 50"
+      fifthColor="255, 165, 0"
+      interactive={true}
+      containerClassName="fixed inset-0"
+    >
+      <div className="min-h-screen relative z-10">
+        {/* Header */}
+        <header className="bg-card/50 backdrop-blur-sm shadow-soft border-b border-primary/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div>
@@ -316,5 +328,6 @@ export default function Dashboard() {
         </Tabs>
       </main>
     </div>
+    </BackgroundGradientAnimation>
   );
 }

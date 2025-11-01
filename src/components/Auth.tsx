@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
@@ -71,8 +72,19 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
-      <Card className="w-full max-w-md backdrop-blur-sm bg-card/95 shadow-2xl border-primary/20">
+    <BackgroundGradientAnimation
+      gradientBackgroundStart="rgb(108, 0, 162)"
+      gradientBackgroundEnd="rgb(0, 17, 82)"
+      firstColor="138, 43, 226"
+      secondColor="255, 20, 147"
+      thirdColor="0, 191, 255"
+      fourthColor="50, 205, 50"
+      fifthColor="255, 165, 0"
+      interactive={true}
+      containerClassName="fixed inset-0"
+    >
+      <div className="min-h-screen flex items-center justify-center p-4 relative z-10">
+        <Card className="w-full max-w-md backdrop-blur-sm bg-card/95 shadow-2xl border-primary/20">
         <CardHeader className="text-center space-y-2">
           <div className="text-4xl mb-2 animate-pulse">🐄</div>
           <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-accent bg-clip-text text-transparent">
@@ -182,5 +194,6 @@ export default function Auth() {
         </CardContent>
       </Card>
     </div>
+    </BackgroundGradientAnimation>
   );
 }

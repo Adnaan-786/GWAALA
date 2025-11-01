@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
@@ -12,13 +13,14 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userRole, setUserRole] = useState<"farmer" | "veterinarian" | "admin" | "government_inspector">("farmer");
   const { toast } = useToast();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -30,6 +32,17 @@ export default function Auth() {
         variant: "destructive",
       });
     } else {
+      // Insert user role
+      if (data.user) {
+        const { error: roleError } = await supabase
+          .from('user_roles')
+          .insert({ user_id: data.user.id, role: userRole });
+        
+        if (roleError) {
+          console.error('Role insert error:', roleError);
+        }
+      }
+      
       toast({
         title: "Success",
         description: "Account created successfully! You can now sign in.",
@@ -58,14 +71,15 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-secondary p-4">
-      <Card className="w-full max-w-md shadow-medium">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-            Animal Analysis System
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
+      <Card className="w-full max-w-md backdrop-blur-sm bg-card/95 shadow-2xl border-primary/20">
+        <CardHeader className="text-center space-y-2">
+          <div className="text-4xl mb-2 animate-pulse">🐄</div>
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-accent bg-clip-text text-transparent">
+            AI PASHU SEVA
           </CardTitle>
           <CardDescription>
-            Professional AI-powered animal anatomical analysis
+            National Digital Livestock Mission
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -123,6 +137,7 @@ export default function Auth() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="bg-background/50"
                   />
                 </div>
                 <div className="space-y-2">
@@ -134,7 +149,22 @@ export default function Auth() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="bg-background/50"
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="userType">User Type</Label>
+                  <Select value={userRole} onValueChange={(value: any) => setUserRole(value)}>
+                    <SelectTrigger className="bg-background/50">
+                      <SelectValue placeholder="Select user type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="farmer">🌾 Farmer</SelectItem>
+                      <SelectItem value="veterinarian">👨‍⚕️ Veterinarian</SelectItem>
+                      <SelectItem value="admin">👑 Admin</SelectItem>
+                      <SelectItem value="government_inspector">🏛️ Government Inspector</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? (

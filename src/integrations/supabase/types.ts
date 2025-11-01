@@ -77,12 +77,231 @@ export type Database = {
         }
         Relationships: []
       }
+      livestock_listings: {
+        Row: {
+          age_months: number | null
+          age_years: number | null
+          animal_id: string
+          breed: string
+          contact_phone: string | null
+          created_at: string | null
+          description: string | null
+          health_status: string | null
+          id: string
+          image_url: string | null
+          is_sold: boolean | null
+          location: string
+          price: number
+          seller_id: string
+          updated_at: string | null
+          vaccination_status: string | null
+          weight_kg: number | null
+        }
+        Insert: {
+          age_months?: number | null
+          age_years?: number | null
+          animal_id: string
+          breed: string
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          health_status?: string | null
+          id?: string
+          image_url?: string | null
+          is_sold?: boolean | null
+          location: string
+          price: number
+          seller_id: string
+          updated_at?: string | null
+          vaccination_status?: string | null
+          weight_kg?: number | null
+        }
+        Update: {
+          age_months?: number | null
+          age_years?: number | null
+          animal_id?: string
+          breed?: string
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          health_status?: string | null
+          id?: string
+          image_url?: string | null
+          is_sold?: boolean | null
+          location?: string
+          price?: number
+          seller_id?: string
+          updated_at?: string | null
+          vaccination_status?: string | null
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      medicines: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          manufacturer: string | null
+          name: string
+          prescription_required: boolean | null
+          price: number
+          stock_quantity: number | null
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          manufacturer?: string | null
+          name: string
+          prescription_required?: boolean | null
+          price: number
+          stock_quantity?: number | null
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          manufacturer?: string | null
+          name?: string
+          prescription_required?: boolean | null
+          price?: number
+          stock_quantity?: number | null
+          type?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          buyer_id: string
+          contact_phone: string | null
+          created_at: string | null
+          delivery_address: string | null
+          id: string
+          item_id: string
+          item_name: string
+          order_type: string
+          quantity: number | null
+          status: string | null
+          total_price: number
+          updated_at: string | null
+        }
+        Insert: {
+          buyer_id: string
+          contact_phone?: string | null
+          created_at?: string | null
+          delivery_address?: string | null
+          id?: string
+          item_id: string
+          item_name: string
+          order_type: string
+          quantity?: number | null
+          status?: string | null
+          total_price: number
+          updated_at?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          contact_phone?: string | null
+          created_at?: string | null
+          delivery_address?: string | null
+          id?: string
+          item_id?: string
+          item_name?: string
+          order_type?: string
+          quantity?: number | null
+          status?: string | null
+          total_price?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      veterinarians: {
+        Row: {
+          available: boolean | null
+          clinic_address: string | null
+          clinic_name: string | null
+          consultation_fee: number | null
+          created_at: string | null
+          experience_years: number | null
+          id: string
+          image_url: string | null
+          name: string
+          phone: string
+          rating: number | null
+          specialization: string
+          user_id: string | null
+        }
+        Insert: {
+          available?: boolean | null
+          clinic_address?: string | null
+          clinic_name?: string | null
+          consultation_fee?: number | null
+          created_at?: string | null
+          experience_years?: number | null
+          id?: string
+          image_url?: string | null
+          name: string
+          phone: string
+          rating?: number | null
+          specialization: string
+          user_id?: string | null
+        }
+        Update: {
+          available?: boolean | null
+          clinic_address?: string | null
+          clinic_name?: string | null
+          consultation_fee?: number | null
+          created_at?: string | null
+          experience_years?: number | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          phone?: string
+          rating?: number | null
+          specialization?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       analysis_status: "pending" | "completed" | "failed"
@@ -94,6 +313,7 @@ export type Database = {
         | "horse"
         | "pig"
         | "other"
+      app_role: "farmer" | "veterinarian" | "admin" | "government_inspector"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -231,6 +451,7 @@ export const Constants = {
         "pig",
         "other",
       ],
+      app_role: ["farmer", "veterinarian", "admin", "government_inspector"],
     },
   },
 } as const
